@@ -1,0 +1,17 @@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "系統錯誤";
+}
+
+<section class="hero-card">
+    <div class="hero-card__content">
+        <p class="eyebrow">錯誤訊息</p>
+        <h1>系統發生未預期錯誤</h1>
+        <p class="hero-text">請稍後再試，或聯繫系統管理員協助排除問題。</p>
+
+        @if (Model.ShowRequestId)
+        {
+            <p class="hero-text"><strong>Request ID:</strong> <code>@Model.RequestId</code></p>
+        }
+    </div>
+</section>
