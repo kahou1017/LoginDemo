@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Http
+@{
+    var currentUser = Context.Session.GetString("AuthenticatedUser");
+}
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -9,8 +13,18 @@
 <body>
     <header class="topbar">
         <div class="container topbar__content">
-            <span class="brand">LoginDemo</span>
-            <span class="subtitle">.NET 10 MVC 登入入口範例</span>
+            <a asp-controller="Home" asp-action="Index" class="brand-link">LoginDemo</a>
+            <div class="topbar-actions">
+                @if (!string.IsNullOrWhiteSpace(currentUser))
+                {
+                    <a asp-controller="Home" asp-action="Dashboard" class="topbar-link">Dashboard</a>
+                    <span class="subtitle">目前登入：@currentUser</span>
+                }
+                else
+                {
+                    <span class="subtitle">.NET 10 MVC 多登入方式示範</span>
+                }
+            </div>
         </div>
     </header>
 

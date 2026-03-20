@@ -1,0 +1,45 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="dashboard-shell">
+    <div class="dashboard-hero">
+        <div>
+            <p class="eyebrow">Dashboard</p>
+            <h1>歡迎，@Model.Username</h1>
+            <p class="hero-text">
+                您已成功登入系統，目前這裡是展示版 Dashboard，後續可以再往下擴充成實際功能頁面。
+            </p>
+        </div>
+        <form asp-action="Logout" method="post" class="logout-form">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="secondary-button">登出</button>
+        </form>
+    </div>
+
+    @if (TempData["LoginMessage"] is string loginMessage)
+    {
+        <div class="status-message" role="status">
+            @loginMessage
+        </div>
+    }
+
+    <div class="dashboard-grid">
+        <article class="dashboard-card">
+            <h2>登入狀態</h2>
+            <p>目前帳號：<strong>@Model.Username</strong></p>
+            <p>登入時間：@Model.LoginTime.ToString("yyyy/MM/dd HH:mm:ss")</p>
+        </article>
+
+        <article class="dashboard-card">
+            <h2>目前進度</h2>
+            <p>AD 登入與一般帳號密碼登入都已建立，並透過 Session 維持登入狀態。</p>
+        </article>
+
+        <article class="dashboard-card">
+            <h2>下一步建議</h2>
+            <p>後續可以再接資料庫會員表、AD 驗證與權限角色控管。</p>
+        </article>
+    </div>
+</section>

@@ -3,24 +3,21 @@
     ViewData["Title"] = Model.Title;
 }
 
-<section class="hero-card">
-    <div class="hero-card__content">
-        <p class="eyebrow">系統核心功能</p>
+<section class="auth-shell">
+    <div class="auth-panel auth-panel--intro">
+        <p class="eyebrow">Login Demo</p>
         <h1>@Model.Title</h1>
-        <p class="hero-text">
-            本系統提供兩種身分驗證方式：<strong>AD 登入</strong>與<strong>帳號密碼登入</strong>。
-            使用者可透過下方登入按鈕，快速選擇適合的登入流程。
-        </p>
+        <p class="hero-text">@Model.Description</p>
 
         <div class="usage-box">
-            <h2>如何使用</h2>
-            <ol>
-                <li>進入登入首頁。</li>
-                <li>點擊畫面中的登入按鈕。</li>
-                <li>依需求選擇 <strong>AD 登入</strong> 或 <strong>帳號密碼登入</strong>。</li>
-            </ol>
+            <h2>登入流程</h2>
+            <p>1. 先從首頁選擇登入方式。</p>
+            <p>2. AD 登入會直接模擬成功。</p>
+            <p>3. 一般帳號密碼登入會切換到另一個畫面輸入帳密。</p>
         </div>
+    </div>
 
+    <div class="auth-panel">
         @if (TempData["LoginMessage"] is string loginMessage)
         {
             <div class="status-message" role="status">
@@ -33,14 +30,21 @@
             {
                 <article class="login-option">
                     <div>
-                        <h3>@method.Name</h3>
+                        <h2>@method.Title</h2>
                         <p>@method.Description</p>
                     </div>
-                    <form asp-action="Login" method="post">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="loginType" value="@method.Key" />
-                        <button type="submit" class="login-button">登入</button>
-                    </form>
+
+                    @if (method.IsPost)
+                    {
+                        <form asp-action="@method.ActionName" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="login-button">@method.SubmitLabel</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-action="@method.ActionName" class="login-link">@method.SubmitLabel</a>
+                    }
                 </article>
             }
         </div>
