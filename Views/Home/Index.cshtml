@@ -1,0 +1,48 @@
+@model LoginOptionsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<section class="hero-card">
+    <div class="hero-card__content">
+        <p class="eyebrow">系統核心功能</p>
+        <h1>@Model.Title</h1>
+        <p class="hero-text">
+            本系統提供兩種身分驗證方式：<strong>AD 登入</strong>與<strong>帳號密碼登入</strong>。
+            使用者可透過下方登入按鈕，快速選擇適合的登入流程。
+        </p>
+
+        <div class="usage-box">
+            <h2>如何使用</h2>
+            <ol>
+                <li>進入登入首頁。</li>
+                <li>點擊畫面中的登入按鈕。</li>
+                <li>依需求選擇 <strong>AD 登入</strong> 或 <strong>帳號密碼登入</strong>。</li>
+            </ol>
+        </div>
+
+        @if (TempData["LoginMessage"] is string loginMessage)
+        {
+            <div class="status-message" role="status">
+                @loginMessage
+            </div>
+        }
+
+        <div class="login-grid">
+            @foreach (var method in Model.Methods)
+            {
+                <article class="login-option">
+                    <div>
+                        <h3>@method.Name</h3>
+                        <p>@method.Description</p>
+                    </div>
+                    <form asp-action="Login" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="loginType" value="@method.Key" />
+                        <button type="submit" class="login-button">登入</button>
+                    </form>
+                </article>
+            }
+        </div>
+    </div>
+</section>
